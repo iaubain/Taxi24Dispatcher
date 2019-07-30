@@ -73,8 +73,7 @@ public class HttpCall {
         String received = null;
         try {
             statusCode = con.getResponseCode();
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(con.getInputStream()));
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String inputLine;
             StringBuilder response = new StringBuilder();
             while ((inputLine = in.readLine()) != null) {
@@ -83,9 +82,21 @@ public class HttpCall {
             in.close();
             received = response.toString() == null || response.toString().isEmpty() ? "" : response.toString();
             Log.d(getClass(), "External call response Status code:"+statusCode+" body: "+received);
-        } catch (IOException e) {
-            Log.e(HttpCall.class, e);
-            throw new ErrorGeneralException(new ErrorsListModel(Arrays.asList(new ErrorModel(SystemConfig.SYSTEM_ID[0]+CommonErrorCodeConfig.GENERAL_PROCESSING_ERROR[0], CommonErrorCodeConfig.GENERAL_PROCESSING_ERROR[1], "They was an issue while proccessing the result from external API. "+e.getMessage()))));
+        } catch (Exception ex) {
+            try {
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+                String inputLine;
+                StringBuilder response = new StringBuilder();
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+                received = response.toString() == null || response.toString().isEmpty() ? "" : response.toString();
+                Log.d(getClass(), "External call response Status code:"+statusCode+" body: "+received);
+            } catch (Exception e) {
+                Log.e(HttpCall.class, e);
+                throw new ErrorGeneralException(new ErrorsListModel(Arrays.asList(new ErrorModel(SystemConfig.SYSTEM_ID[0]+CommonErrorCodeConfig.GENERAL_PROCESSING_ERROR[0], CommonErrorCodeConfig.GENERAL_PROCESSING_ERROR[1], "They was an issue while proccessing the result from external API. "+e.getMessage()))));
+            }
         }
         if(statusCode != 200){
             ErrorsListModel errors = null;
@@ -142,8 +153,7 @@ public class HttpCall {
         String received = null;
         try {
             statusCode = con.getResponseCode();
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(con.getInputStream()));
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String inputLine;
             StringBuilder response = new StringBuilder();
             while ((inputLine = in.readLine()) != null) {
@@ -152,9 +162,21 @@ public class HttpCall {
             in.close();
             received = response.toString() == null || response.toString().isEmpty() ? "" : response.toString();
             Log.d(getClass(), "External call response Status code:"+statusCode+" body: "+received);
-        } catch (IOException e) {
-            Log.e(HttpCall.class, e);
-            throw new ErrorGeneralException(new ErrorsListModel(Arrays.asList(new ErrorModel(SystemConfig.SYSTEM_ID[0]+CommonErrorCodeConfig.GENERAL_PROCESSING_ERROR[0], CommonErrorCodeConfig.GENERAL_PROCESSING_ERROR[1], "They was an issue while proccessing the result from external API. "+e.getMessage()))));
+        } catch (Exception ex) {
+            try {
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+                String inputLine;
+                StringBuilder response = new StringBuilder();
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+                received = response.toString() == null || response.toString().isEmpty() ? "" : response.toString();
+                Log.d(getClass(), "External call response Status code:"+statusCode+" body: "+received);
+            } catch (Exception e) {
+                Log.e(HttpCall.class, e);
+                throw new ErrorGeneralException(new ErrorsListModel(Arrays.asList(new ErrorModel(SystemConfig.SYSTEM_ID[0]+CommonErrorCodeConfig.GENERAL_PROCESSING_ERROR[0], CommonErrorCodeConfig.GENERAL_PROCESSING_ERROR[1], "They was an issue while proccessing the result from external API. "+e.getMessage()))));
+            }
         }
         if(statusCode != 200){
             ErrorsListModel errors = null;
